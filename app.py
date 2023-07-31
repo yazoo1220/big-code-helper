@@ -4,8 +4,9 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
+import pyperclip
 
-content = st_ace()
+content = st_ace(theme='github')
 content
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
@@ -16,9 +17,6 @@ text_splitter = RecursiveCharacterTextSplitter.from_language(
     language=Language.PYTHON
 )
 
-if st.button('submit'):
-    texts = text_splitter.split_documents(content)
-
 def _sanitize_output(text: str):
     try:
         _, after = text.split("```python")
@@ -26,14 +24,18 @@ def _sanitize_output(text: str):
     except ValueError:
         return text
 
-prompt=ChatPromptTemplate.from_template(
-    "You are a helpful assistant that add comments to each meaningful block and return the code with those cmoments. The code should be in a code block starting with ```python\n\nCODE: {input}",
-)
-chain = prompt | ChatOpenAI() | StrOutputParser() | _sanitize_output
+if st.button('submit'):
+    texts = text_splitter.split_documents(content)
+    prompt=ChatPromptTemplate.from_template(
+        "You are a helpful assistant that add comments to each meaningful block and return the code with those cmoments. The code should be in a code block starting with ```python\n\nCODE: {input}",
+    )
+    chain = prompt | ChatOpenAI() | StrOutputParser() | _sanitize_output
+    result = []
+    
+    for text in texts:
+        result.append(chain.invoke({"input":text.page_content}))
+    
+    st.markdown(''.join(result))
 
-result = []
-
-for text in texts:
-    result.append(chain.invoke({"input":text.page_content}))
-
-st.markdown(''.join(result))
+    if st.button('📋'):
+        pyperclip(''.join(result))
