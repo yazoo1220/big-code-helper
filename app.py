@@ -25,7 +25,7 @@ def _sanitize_output(text: str):
         return text
 
 if st.button('submit'):
-    texts = text_splitter.split_documents(content)
+    texts = text_splitter.split_documents([content])
     prompt=ChatPromptTemplate.from_template(
         "You are a helpful assistant that add comments to each meaningful block and return the code with those cmoments. The code should be in a code block starting with ```python\n\nCODE: {input}",
     )
