@@ -6,9 +6,8 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema import Document
 
-
+request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
 content = Document(page_content=st_ace(theme='terminal'), metadata={})
-request = st.text_input('add comments to each meaningful block and return the code with those cmoments')
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
