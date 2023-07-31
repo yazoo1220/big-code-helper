@@ -36,8 +36,5 @@ if st.button('submit'):
         for text in texts:
             result.append(chain.invoke({"input":text.page_content}))
     
-        result_pane = st_ace(theme='nord_dark')
-        st.markdown(''.join(result))
+        result_pane = st_ace(value=''.join(result), theme='nord_dark')
     
-        if st.button('📋'):
-            pyperclip(''.join(result))
