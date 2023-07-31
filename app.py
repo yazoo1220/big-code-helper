@@ -4,9 +4,10 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
+from langchain.schema import Document
 
-content = {"page_content":""}
-content.page_content = st_ace(theme='terminal')
+
+content = Docement("page_content":st_ace(theme='terminal'), "metadata"={})
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
