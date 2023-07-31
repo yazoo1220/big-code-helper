@@ -6,7 +6,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 
 
-content = st_ace(theme='github')
+content = st_ace(theme='terminal')
 content
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
@@ -35,7 +35,7 @@ if st.button('submit'):
     for text in texts:
         result.append(chain.invoke({"input":text.page_content}))
 
-    result_pane = st_ace(theme='github', readonly=true)
+    result_pane = st_ace(theme='nord_dark', readonly=true)
     st.markdown(''.join(result))
 
     if st.button('📋'):
