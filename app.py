@@ -6,8 +6,8 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema import Document
 
-model = st.sidebar.select_box('model',['gpt-3.5-turbo','gpt-4'])
-format = st.select_box('output',['only code','markdown'])
+model = st.sidebar.selectbox('model',['gpt-3.5-turbo','gpt-4'])
+format = st.selectbox('output',['only code','markdown'])
 request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
 content = Document(page_content=st_ace(theme='terminal'), metadata={})
 
