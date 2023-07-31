@@ -17,12 +17,22 @@ text_splitter = RecursiveCharacterTextSplitter.from_language(
     language=Language.PYTHON
 )
 
+import re
+
 def _sanitize_output(text: str):
-    try:
-        _, after = text.split("```python")
-        return after.split("```")[0]
-    except ValueError:
-        return text.split("```python")[0]
+    # Check if input is a string
+    if not isinstance(text, str):
+        raise ValueError("Input must be a string")
+        
+    # Find all code blocks
+    code_blocks = re.findall(r'```.*?\n(.*?)```', text, re.DOTALL)
+    
+    # Check if any code blocks were found
+    if not code_blocks:
+        raise ValueError("No code blocks found in the input text")
+        
+    return code_blocks
+
 
 if st.button('submit'):
     with st.spinner(text='in progress...'):
