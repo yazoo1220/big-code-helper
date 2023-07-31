@@ -7,7 +7,6 @@ from langchain.schema.output_parser import StrOutputParser
 
 
 content = st_ace(theme='terminal')
-content
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
