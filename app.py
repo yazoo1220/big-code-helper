@@ -49,7 +49,7 @@ if st.button('submit'):
         
         for text in texts:
             print(text)
-            result.append(chain.invoke({"input":text.page_content}))
+            result.append(chain.invoke({"input":text.page_content, "request":request}))
 
         st.code(''.join(result), line_numbers=True)
         # result_pane = st_ace(value=''.join(result), theme='nord_dark')
