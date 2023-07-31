@@ -44,7 +44,8 @@ if st.button('submit'):
         )
         chain = prompt | ChatOpenAI() | StrOutputParser() | _sanitize_output
         result = []
-        st.expand(texts)
+        with st.expander(label='texts'):
+            st.write(texts)
         
         for text in texts:
             print(text)
