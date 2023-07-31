@@ -12,7 +12,7 @@ content = Document(page_content=st_ace(theme='terminal'), metadata={})
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
 text_splitter = RecursiveCharacterTextSplitter.from_language(
-    chunk_size=1000,
+    chunk_size=500,
     chunk_overlap=0,
     language=Language.PYTHON
 )
@@ -45,6 +45,7 @@ if st.button('submit'):
         result = []
         
         for text in texts:
+            print(text)
             result.append(chain.invoke({"input":text.page_content}))
 
         st.code(''.join(result), line_numbers=True)
