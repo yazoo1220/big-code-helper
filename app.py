@@ -22,7 +22,7 @@ def _sanitize_output(text: str):
         _, after = text.split("```python")
         return after.split("```")[0]
     except ValueError:
-        return text.split("```python")[1]
+        return text.split("```python")[0]
 
 if st.button('submit'):
     with st.spinner(text='in progress...'):
