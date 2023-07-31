@@ -25,18 +25,19 @@ def _sanitize_output(text: str):
         return text
 
 if st.button('submit'):
-    texts = text_splitter.split_documents([content])
-    prompt=ChatPromptTemplate.from_template(
-        "You are a helpful assistant that add comments to each meaningful block and return the code with those cmoments. The code should be in a code block starting with ```python\n\nCODE: {input}",
-    )
-    chain = prompt | ChatOpenAI() | StrOutputParser() | _sanitize_output
-    result = []
+    with st.spinner(text='in progress...'):
+        texts = text_splitter.split_documents([content])
+        prompt=ChatPromptTemplate.from_template(
+            "You are a helpful assistant that add comments to each meaningful block and return the code with those cmoments. The code should be in a code block starting with ```python\n\nCODE: {input}",
+        )
+        chain = prompt | ChatOpenAI() | StrOutputParser() | _sanitize_output
+        result = []
+        
+        for text in texts:
+            result.append(chain.invoke({"input":text.page_content}))
     
-    for text in texts:
-        result.append(chain.invoke({"input":text.page_content}))
-
-    result_pane = st_ace(theme='nord_dark', readonly=true)
-    st.markdown(''.join(result))
-
-    if st.button('📋'):
-        pyperclip(''.join(result))
+        result_pane = st_ace(theme='nord_dark')
+        st.markdown(''.join(result))
+    
+        if st.button('📋'):
+            pyperclip(''.join(result))
