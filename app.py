@@ -4,7 +4,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
-import pyperclip
+
 
 content = st_ace(theme='github')
 content
@@ -34,7 +34,8 @@ if st.button('submit'):
     
     for text in texts:
         result.append(chain.invoke({"input":text.page_content}))
-    
+
+    result_pane = st_ace(theme='github', readonly=true)
     st.markdown(''.join(result))
 
     if st.button('📋'):
