@@ -8,6 +8,7 @@ from langchain.schema import Document
 
 
 content = Document(page_content=st_ace(theme='terminal'), metadata={})
+request = st.text_input('add comments to each meaningful block and return the code with those cmoments')
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
@@ -40,7 +41,7 @@ if st.button('submit'):
     with st.spinner(text='in progress...'):
         texts = text_splitter.split_documents([content])
         prompt=ChatPromptTemplate.from_template(
-            "You are a helpful assistant that add comments to each meaningful block and return the code with those cmoments. The code should be in a code block starting with ```python\n\nCODE: {input}",
+            "You are a helpful assistant. Please {request}. The code should be in a code block starting with ```python\n\nCODE: {input}",
         )
         chain = prompt | ChatOpenAI() | StrOutputParser() | _sanitize_output
         result = []
