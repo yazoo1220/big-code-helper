@@ -7,7 +7,7 @@ from langchain.schema.output_parser import StrOutputParser
 from langchain.schema import Document
 
 
-content = Docement("page_content":st_ace(theme='terminal'), "metadata"={})
+content = Docement(page_content=st_ace(theme='terminal'), metadata={})
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
