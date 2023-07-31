@@ -31,7 +31,7 @@ def _sanitize_output(text: str):
     if not code_blocks:
         raise ValueError("No code blocks found in the input text")
         
-    return code_blocks
+    return '\n'.join(code_blocks)
 
 
 if st.button('submit'):
@@ -45,6 +45,7 @@ if st.button('submit'):
         
         for text in texts:
             result.append(chain.invoke({"input":text.page_content}))
-    
-        result_pane = st_ace(value=''.join(result), theme='nord_dark')
+
+        st.code(''.join(result), line_numbers=True)
+        # result_pane = st_ace(value=''.join(result), theme='nord_dark')
     
