@@ -6,6 +6,8 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema import Document
 
+model = st.sidebar.select_box('model',['gpt-3.5-turbo','gpt-4'])
+format = st.select_box('output',['only code','markdown'])
 request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
 content = Document(page_content=st_ace(theme='terminal'), metadata={})
 
@@ -42,7 +44,11 @@ if st.button('submit'):
         prompt=ChatPromptTemplate.from_template(
             "You are a helpful assistant. Please {request}. The code should be in a code block starting with ```python\n\nCODE: {input}",
         )
-        chain = prompt | ChatOpenAI() | StrOutputParser() | _sanitize_output
+        if format == 'only code':
+            chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser() | _sanitize_output
+        else:
+            chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser()
+        
         result = []
         with st.expander(label='texts'):
             st.write(texts)
@@ -51,6 +57,9 @@ if st.button('submit'):
             print(text)
             result.append(chain.invoke({"input":text.page_content, "request":request}))
 
-        st.code(''.join(result), line_numbers=True)
+        if format == 'only code':
+            st.code(''.join(result), line_numbers=True)
+        else:
+            st.markdown(''.join(result))
         # result_pane = st_ace(value=''.join(result), theme='nord_dark')
     
