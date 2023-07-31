@@ -5,7 +5,7 @@ from langchain.chains import LLMChain
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 
-content = {}
+content = {"page_content":""}
 content.page_content = st_ace(theme='terminal')
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
