@@ -30,6 +30,7 @@ def _sanitize_output(text: str):
     # Check if any code blocks were found
     if not code_blocks:
         raise ValueError("No code blocks found in the input text")
+        return text
         
     return '\n'.join(code_blocks)
 
