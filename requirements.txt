@@ -3,3 +3,4 @@ openai
 tiktoken
 streamlit
 streamlit-ace
+pyperclip
