@@ -23,6 +23,7 @@ def _sanitize_output(text: str):
     # Check if input is a string
     if not isinstance(text, str):
         raise ValueError("Input must be a string")
+        return text
         
     # Find all code blocks
     code_blocks = re.findall(r'```.*?\n(.*?)```', text, re.DOTALL)
