@@ -6,11 +6,14 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from langchain.schema import Document
 
+col1, col2 = st.columns(2)
+
 model = st.sidebar.selectbox('model',['gpt-3.5-turbo','gpt-4'])
 language = st.sidebar.selectbox('language',['python','javascript','typescript','markdown'])
 format = st.sidebar.selectbox('output',['only code','markdown'])
 request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
-content = Document(page_content=st_ace(theme='terminal'), metadata={})
+with col1.container():
+    content = Document(page_content=st_ace(theme='terminal'), metadata={})
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
@@ -46,28 +49,28 @@ def _sanitize_output(text: str):
     return '\n'.join(code_blocks)
 
 
-if st.button('submit'):
-    with st.spinner(text='in progress...'):
-        texts = text_splitter.split_documents([content])
-        prompt=ChatPromptTemplate.from_template(
-            "You are a helpful assistant. Please {request}. Codes should be in code blocks starting with ```{language}\n\nCODE: {input}",
-        )
-        if format == 'only code':
-            chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser() | _sanitize_output
-        else:
-            chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser()
-        
-        result = []
-        with st.expander(label='texts'):
-            st.write(texts)
-        
-        for text in texts:
-            print(text)
-            result.append(chain.invoke({"input":text.page_content, "request":request}))
-
-        if format == 'only code':
-            st.code(''.join(result), line_numbers=True)
-        else:
-            st.markdown(''.join(result))
-        # result_pane = st_ace(value=''.join(result), theme='nord_dark')
+if col1.button('submit'):
+    with col2.container():
+        with st.spinner(text='in progress...'):
+            texts = text_splitter.split_documents([content])
+            prompt=ChatPromptTemplate.from_template(
+                "You are a helpful assistant. Please {request}. Codes should be in code blocks starting with ```{language}\n\nCODE: {input}",
+            )
+            if format == 'only code':
+                chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser() | _sanitize_output
+            else:
+                chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser()
+            
+            result = []
+            with st.expander(label='texts'):
+                st.write(texts)
+            
+            for text in texts:
+                print(text)
+                result.append(chain.invoke({"input":text.page_content, "request":request}))
     
+            if format == 'only code':
+                st.code(''.join(result), line_numbers=True)
+            else:
+                st.markdown(''.join(result))
+        
