@@ -11,7 +11,7 @@ language = st.sidebar.selectbox('language',['python','javascript','typescript','
 format = st.sidebar.selectbox('output',['only code','markdown'])
 
 with st.container():
-    request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
+    request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those comments')
 
 col1, col2 = st.columns(2)
 with col1.container():
