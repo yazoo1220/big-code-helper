@@ -7,16 +7,24 @@ from langchain.schema.output_parser import StrOutputParser
 from langchain.schema import Document
 
 model = st.sidebar.selectbox('model',['gpt-3.5-turbo','gpt-4'])
-format = st.selectbox('output',['only code','markdown'])
+language = st.sidebar.selectbox('language'['python','javascript','typescript','markdown'])
+format = st.sidebar.selectbox('output',['only code','markdown'])
 request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
 content = Document(page_content=st_ace(theme='terminal'), metadata={})
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
+if language == "python":
+    language_type = Language.PYTHON
+elif language in ["typescript","javascript"]
+    language_type = Language.JS
+else:
+    language_type = Language.PYTHON
+    
 text_splitter = RecursiveCharacterTextSplitter.from_language(
     chunk_size=500,
     chunk_overlap=0,
-    language=Language.PYTHON
+    language=language_type
 )
 
 import re
@@ -42,7 +50,7 @@ if st.button('submit'):
     with st.spinner(text='in progress...'):
         texts = text_splitter.split_documents([content])
         prompt=ChatPromptTemplate.from_template(
-            "You are a helpful assistant. Please {request}. The code should be in a code block starting with ```python\n\nCODE: {input}",
+            "You are a helpful assistant. Please {request}. Codes should be in code blocks starting with ```{language}\n\nCODE: {input}",
         )
         if format == 'only code':
             chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser() | _sanitize_output
