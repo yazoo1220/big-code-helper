@@ -16,7 +16,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter, Language
 
 if language == "python":
     language_type = Language.PYTHON
-elif language in ["typescript","javascript"]
+elif language in ["typescript","javascript"]:
     language_type = Language.JS
 else:
     language_type = Language.PYTHON
