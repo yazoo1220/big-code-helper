@@ -7,7 +7,7 @@ from langchain.schema.output_parser import StrOutputParser
 from langchain.schema import Document
 
 model = st.sidebar.selectbox('model',['gpt-3.5-turbo','gpt-4'])
-language = st.sidebar.selectbox('language'['python','javascript','typescript','markdown'])
+language = st.sidebar.selectbox('language',['python','javascript','typescript','markdown'])
 format = st.sidebar.selectbox('output',['only code','markdown'])
 request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
 content = Document(page_content=st_ace(theme='terminal'), metadata={})
