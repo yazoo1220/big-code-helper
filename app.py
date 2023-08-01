@@ -11,7 +11,10 @@ col1, col2 = st.columns(2)
 model = st.sidebar.selectbox('model',['gpt-3.5-turbo','gpt-4'])
 language = st.sidebar.selectbox('language',['python','javascript','typescript','markdown'])
 format = st.sidebar.selectbox('output',['only code','markdown'])
-request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
+
+with st.container():
+    request = st.text_input(label='request', value='add comments to each meaningful block and return the code with those cmoments')
+
 with col1.container():
     content = Document(page_content=st_ace(theme='terminal'), metadata={})
 
