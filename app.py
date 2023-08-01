@@ -69,7 +69,7 @@ if col1.button('submit'):
             
             for text in texts:
                 print(text)
-                result.append(chain.invoke({"input":text.page_content, "request":request}))
+                result.append(chain.invoke({"input":text.page_content, "request":request, "language": language_type}))
     
             if format == 'only code':
                 st.code(''.join(result), line_numbers=True)
