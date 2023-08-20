@@ -27,7 +27,7 @@ else:
     language_type = Language.PYTHON
     
 text_splitter = RecursiveCharacterTextSplitter.from_language(
-    chunk_size=500,
+    chunk_size=2000,
     chunk_overlap=0,
     language=language_type
 )
