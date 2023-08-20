@@ -58,10 +58,10 @@ if col1.button('submit'):
             prompt=ChatPromptTemplate.from_template(
                 "You are a helpful assistant. Please {request}. Codes should be in code blocks starting with ```{language}\n\nCODE: {input}",
             )
-            if format == 'only code':
-                chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser() | _sanitize_output
-            else:
-                chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser()
+            # if format == 'only code':
+            #    chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser() | _sanitize_output
+            # else:
+            chain = prompt | ChatOpenAI(temperature=0,model_name=model) | StrOutputParser()
             
             result = []
             with st.expander(label='texts'):
